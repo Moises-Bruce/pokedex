@@ -3,12 +3,15 @@
 </script>
 
 <template>
-  <header>
-      <nav>
-        Pokedex  
-      </nav>
-  </header>
-
-  <RouterView />
+  <div class="container min-h-screen mx-auto flex flex-col p-4 gap-2">
+    <header>
+        <nav>
+          <span class="text-2xl font-bold">Pokedex</span>  
+        </nav>
+    </header>
+    <div class="border border-black flex-1">
+      <RouterView />
+    </div>
+  </div>
 </template>
 
