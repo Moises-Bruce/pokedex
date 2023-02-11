@@ -6,7 +6,7 @@
   <div class="container min-h-screen mx-auto flex flex-col p-4 gap-2">
     <header>
         <nav>
-          <span class="text-2xl font-bold">Pokédex Challenger</span>  
+          <span class="text-2xl font-bold mb-6">POKÉDEX CHALLENGER COPYBASE</span> 
         </nav>
     </header>
     <div class="flex-1">

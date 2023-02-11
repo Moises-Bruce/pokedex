@@ -19,13 +19,19 @@ onMounted(() => {
 </script>
 
 <template>
-    <h1>{{pokemon.name}}</h1>
-    <img :src="pokemon?.sprites?.other?.home?.front_default" class="h-52 w-52"/>
-
-    <template v-for="stats in pokemon.stats">
-        <div class="flex gap-2">
-            <span>{{ stats.stat.name }}</span>
-            <span>{{ stats.base_stat }}</span>
+    <div class="flex flex-col items-center justify-center mt-40">
+        <div class="bg-gray-200 flex flex-col items-center justify-center rounded-lg h-full w-full border-2 border-black">
+            <h1 class="flex justify-center items-center text-3xl font-semibold">{{pokemon.name}}</h1>
+            <img :src="pokemon?.sprites?.other?.home?.front_default" class="h-72 w-72"/>
+            <div class="bg-white flex flex-row justify-between w-full h-full mb-6 mt-6 rounded-lg">
+                <template v-for="stats in pokemon.stats">
+                    <div class="flex items-center justify-center gap-10 ">
+                        <span class="font-bold text-lg">{{ stats.stat.name }}:</span>
+                        <span class="font-bold text-lg">{{ stats.base_stat }}</span>
+                    </div>
+                </template>
+            </div>
         </div>
-    </template>
+    </div>
+
 </template>
