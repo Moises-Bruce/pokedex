@@ -73,8 +73,11 @@
     </div>
 
     <div class="bg-blue-500 flex flex-col">
-        <template v-for="evolution in evolutions">
-          <p>{{ evolution.name }}</p>
+        <template v-for="evolution in evolutions" :key="evolution.name">
+          <RouterLink :to="{ name: 'details', params: { id: evolution.id } }">
+            <p>{{ evolution.name }}</p>
+          </RouterLink>
+          
           <img :src="evolution.image" class="h-52 w-52">
         </template>
     </div>
