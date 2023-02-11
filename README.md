@@ -26,6 +26,12 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Tailwind Css: v3.2.6
 - Vite v4.0.0 
 
+# 🖥️ No ar
+
+ Para ter acesso a aplicação acesse a seguinte url:
+ 
+ https://adorable-daffodil-4ffd22.netlify.app/
+
 # Rodar o projeto
 
 - Clone o projeto:
