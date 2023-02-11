@@ -1,26 +1,52 @@
 <script setup>
   import { ref } from 'vue';
+  import axios from 'axios';
+  import { api } from '../lib/api';
 
   const name = ref('');
   const message = ref('Digite o nome de um pokémon para saber todos os detalhes dele');
   const pokemon = ref({});
+  const evolutions = ref([]);
 
-  function searchPokemon(){
-    const pokemonName = String(name.value).toLowerCase();
+  async function getEvolvesTo(chain) {
+    const evolvesPokemon = []
+    let nextEvolve = chain.evolves_to[0];
 
-    pokemon.value = {}
-    message.value = 'Estamos buscando o seu pokemon'
+    do {
+      const { data: specie } = await axios.get(nextEvolve.species.url);
+      const { data: pokemonData } = await api.get(`pokemon/${specie.id}`);
 
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
-    .then(response => response.json())
-    .then(response => {
-      pokemon.value = response
+      evolvesPokemon.push({
+        id: specie.id,
+        name: nextEvolve.species.name,
+        image: pokemonData.sprites.other.dream_world.front_default,
+        details: nextEvolve.evolution_details[0],
+      })
+
+      nextEvolve = nextEvolve.evolves_to[0];
+    } while (Boolean(nextEvolve) && nextEvolve.hasOwnProperty('evolves_to'));
+
+    return evolvesPokemon
+  }
+
+  async function searchPokemon(){
+    try {
+      const pokemonName = String(name.value).toLowerCase();
+
+      pokemon.value = {}
+      message.value = 'Estamos buscando o seu pokemon'
+
+      const { data: pokemonData } = await api.get(`pokemon/${pokemonName}`);
+      const { data: evolutionsData } = await api.get(`evolution-chain/${pokemonData.id}`);
+
+      pokemon.value = pokemonData
+      evolutions.value = await getEvolvesTo(evolutionsData.chain);
+
       message.value = 'Digitando o nome de um pokémon você para todos os detalhes dele'
-    })
-    .catch(error => {
+    } catch (error) {
       console.log(error)
       message.value = 'Não encontramos esse pokemon, tente pesquisar novamente!'
-    })
+    }
   }
 </script>
 
@@ -41,19 +67,17 @@
     
     <div class="mt-4">
       <h1 class="flex justify-center items-center text-3xl font-semibold">{{ pokemon.name }}</h1>
-      <div class="rounded-lg bg-sky-200 w-60 h-60 mt-10 flex justify-between border-2 border-black">
+      <div class="rounded-lg bg-green-200 w-60 h-60 mt-10 flex justify-between border-2 border-black">
         <img :src="pokemon.sprites.other.home.front_default" class="h-52 w-52 flex justify-between"/>
-      </div>
-      <div class="mt-24 flex flex-row items-center justify-between px-20 border-2 border-black rounded-lg">
-        <h1 class="text-lg"><strong>HP: </strong>123</h1>
-        <h1 class="text-lg"><strong>Attack: </strong>123</h1>
-        <h1 class="text-lg"><strong>Defense: </strong>123</h1>
-        <h1 class="text-lg"><strong>Special Attack: </strong>123</h1>
-        <h1 class="text-lg"><strong>Special Defense: </strong>123</h1>
-        <h1 class="text-lg"><strong>Speed: </strong>123</h1>
       </div>
     </div>
 
+    <div class="bg-blue-500 flex flex-col">
+        <template v-for="evolution in evolutions">
+          <p>{{ evolution.name }}</p>
+          <img :src="evolution.image" class="h-52 w-52">
+        </template>
+    </div>
   </template>
   <template v-else>
     <h1 class="text-gray-700 text-2xl font-bold h-96 flex justify-center items-center">{{ message }}</h1> 
