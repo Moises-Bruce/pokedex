@@ -64,7 +64,6 @@
   </main>
 
   <template v-if="Object.keys(pokemon).length !== 0">
-    
     <div class="mt-4 flex items-center justify-center">
       <div class="rounded-lg bg-gray-200 w-72 h-72 mt-10 flex flex-col items-center justify-center border-2 border-black">
         <p class="flex justify-center items-center text-2xl font-semibold">{{ pokemon.name }}</p>
@@ -72,7 +71,7 @@
       </div>
     </div>
     <div class="flex items-center justify-center mt-10 border-b-2 border-black">
-      <h1 class="text-2xl font-bold mb-2">EVOLUÇÕES</h1>
+      <h1 class="text-2xl font-bold mb-2">PRÓXIMAS EVOLUÇÕES</h1>
     </div>
     <div class="flex justify-between">
         <template v-for="evolution in evolutions" :key="evolution.name">
