@@ -1,7 +1,7 @@
 <div align="center">
   <h1>POKÉDEX</h1>
   
-  > 💻 Desafio do processo seletivo da empresa Copybase para consumo da api de pokémon.
+  > 💻 Aplicação feita para consumo da api de pokémon.
 </div>
 </br>
 
